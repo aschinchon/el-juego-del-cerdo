@@ -207,7 +207,7 @@ max_tiradas1 <- 5
 max_tiradas2 <- 3
 
 partidas <- 2000
-resultados <- tibble(partida = numeric(), ganador = character())
+ganadores <- character()
 
 for (i in 1:partidas)
 {
@@ -246,21 +246,21 @@ for (i in 1:partidas)
     total_puntos2 <- total_puntos2 + parcial2
   }
   
-  resultados <- add_row(resultados,
-                        partida = i,
-                        ganador = ifelse(total_puntos1 >= 100 & total_puntos2 >= 100, 
-                                         "Empate", 
-                                         ifelse(total_puntos1 > total_puntos2, "TIRA5", "TIRA3")))
+  ganador <- ifelse(total_puntos1 >= 100 & total_puntos2 >= 100, 
+                   "Empate",
+                   ifelse(total_puntos1 > total_puntos2, "TIRA5", "TIRA3"))
   
+  ganadores <- append(ganadores, ganador)
+
 }
 ```
 
-Lo que hemos hecho es meter el código anterior dentro de un bucle `for` (otro tipo de bucle, éste realiza exactamente las iteraciones que le digamos, a diferencia del `while`, que termina cuando se consigue algo, con independencia de las iteraciones que se necesiten para conseguirlo). El número de partidas está definido por la variable `partidas`, que vale `2000`. 
+Lo que hemos hecho es meter el código anterior dentro de un bucle `for` (otro tipo de bucle, éste realiza exactamente las iteraciones que le digamos, a diferencia del `while`, que termina cuando se consigue algo, con independencia de las iteraciones que se necesiten para conseguirlo). El número de partidas está definido por la variable `partidas`, que vale `2000`. También hemos creado un nuevo vector llamado `ganadores` que nos ha servido para guardar el ganador de cada una de las partidas.
 
 Ahora podemos hacer una tabla para ver quién ha ganado las partidas: 
 
 ```{r, message = FALSE, warning=FALSE}
-table(resultados$ganador)
+table(ganadores)
 ```
 
 Parece claro que la estrategia de TIRA5 es mejor que la de TIRA3. Pero, **¿hay alguna estrategia mejor?**
@@ -315,7 +315,7 @@ partidas <- 2000
 max_tiradas1 <- 5
 consigue2 <- 20
 
-resultados <- tibble(partida = numeric(), ganador = character())
+ganadores <- character()
 
 for (i in 1:partidas)
 {
@@ -359,19 +359,19 @@ for (i in 1:partidas)
     
   }
 
-  resultados <- add_row(resultados,
-                        partida = i,
-                        ganador = ifelse(total_puntos1 >= 100 & total_puntos2 >= 100, 
-                                         "Empate", 
-                                         ifelse(total_puntos1 > total_puntos2, "TIRA5", "CONSIGUE20")))
+  ganador <- ifelse(total_puntos1 >= 100 & total_puntos2 >= 100, 
+                   "Empate",
+                   ifelse(total_puntos1 > total_puntos2, "TIRA5", "CONSIGUE20"))
   
+  ganadores <- append(ganadores, ganador)
+
 }
 ```
 
 ¿Cuántas veces ha ganado cada jugador?
 
 ```{r, message = FALSE, warning=FALSE}
-table(resultados$ganador)
+table(ganadores)
 ```
 
 Nuestro campeon actual es CONSIGUE20 pero **¿hay algun valor mejor que 20?**. Para ello puedes tomar el código anterior y sustituir al jugador 1 por otro que intente conseguir una cantidad distinta de 20 puntos.
